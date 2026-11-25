@@ -1,4 +1,14 @@
 % Caso: robo de la Copa de Oro (sala de trofeos, 8:00 p. m.)
+:- encoding(utf8).
+:- discontiguous huella/2.
+
+ficha(director,     'Aurelio Montoya', 'Director del museo').
+ficha(guardia,      'Hernán Ríos',     'Guardia de seguridad').
+ficha(restauradora, 'Lucía Paredes',   'Restauradora').
+ficha(guia,         'Tomás Vega',      'Guía turístico').
+ficha(donante,      'Isabela Cortés',  'Donante').
+ficha(conserje,     'Ramiro Castaño',  'Conserje').
+
 persona(director).
 persona(guardia).
 persona(restauradora).
