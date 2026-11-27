@@ -7,7 +7,7 @@
 :- use_module(library(http/http_json)).
 :- use_module(library(http/http_parameters)).
 
-:- [hechos, reglas].
+:- [hechos, reglas, preguntas].
 
 :- prolog_load_context(directory, D), assertz(dir_base(D)).
 
@@ -17,6 +17,7 @@
 :- http_handler(root(api/huella),     api_huella,     []).
 :- http_handler(root(api/interrogar), api_interrogar, []).
 :- http_handler(root(api/acusar),     api_acusar,     []).
+:- http_handler(root(api/preguntar),  api_preguntar,  []).
 
 servidor :-
     http_server(http_dispatch, [port(8080)]),
@@ -28,6 +29,7 @@ inicio(Request) :-
     dir_base(D),
     directory_file_path(D, 'index.html', F),
     http_reply_file(F, [unsafe(true)], Request).
+
 api_personas(_) :-
     findall(_{id: P, nombre: N, cargo: C}, ficha(P, N, C), Lista),
     reply_json_dict(Lista).
@@ -94,3 +96,11 @@ ranking(Lista) :-
     findall(N-P, puntaje_sospecha(P, N), Pares),
     sort(0, @>=, Pares, Orden),
     findall(_{persona: P, puntaje: N}, member(N-P, Orden), Lista).
+
+api_preguntar(Request) :-
+    http_parameters(Request, [persona(P, [atom]), texto(Txt, [])]),
+    (   persona(P)
+    ->  responder(P, Txt, Intenciones, Respuesta),
+        reply_json_dict(_{persona: P, intenciones: Intenciones, respuesta: Respuesta})
+    ;   reply_json_dict(_{error: 'Persona desconocida'}, [status(404)])
+    ).

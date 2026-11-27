@@ -1,4 +1,4 @@
-% Caso: robo de la Copa de Oro (sala de trofeos, 8:00 p. m.)
+% Caso: robo de laq Copa de Oro (sala de trofeos, 8:00 p. m.)
 :- encoding(utf8).
 :- discontiguous huella/2.
 
